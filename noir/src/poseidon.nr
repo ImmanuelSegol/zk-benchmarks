@@ -41,8 +41,21 @@ fn mixLast(t: [Field], M: [[Field]], i: Field) -> Field {
 }
 
 
-fn mixS() -> [Field] {
+fn mixS(t: [Field], S: [Field], i: Field) -> [Field] {
+    let tLen = create::array::len(t);
+    let output: [Field];
+    let mut lc: Field;
 
+    for j in 1..create::array::len(t) {
+        lc += S[(tLen*2-1)*i+j]*t[j];
+    }
+    output[0] = lc;
+
+    for k in 1..create::array::len(t) {
+        output[k] = t[k] + t[0] * S[(tLen*2-1)*i + tLen + k -1];
+    }
+    
+    output 
 }
 
 fn poseidonEx(inputs: [Field], nOuts: Field) {}
