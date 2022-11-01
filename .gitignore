@@ -1,0 +1,5 @@
+*.r1cs
+*.sym
+*.out
+*.wtns
+bench_poseidon_cpp/
