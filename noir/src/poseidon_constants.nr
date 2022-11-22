@@ -1,4 +1,4 @@
-fn getPoseidonC(t: Field) -> [Field]{
+fn POSEIDON_C(t: Field) -> [Field]{
     if t==2 {
         return [
             0x9c46e9ec68e9bd4fe1faaba294cba38a71aa177534cdd1b6c7dc0dbd0abd7a7,
@@ -2292,7 +2292,7 @@ fn getPoseidonC(t: Field) -> [Field]{
         }}}}}}}}}}}}}}}
 
 }
-fn getPoseidonS(t: Field) -> [Field]{
+fn POSEIDON_S(t: Field) -> [Field]{
     if t==2 {
         return [
             0x66f6f85d6f68a85ec10345351a23a3aaf07f38af8c952a7bceca70bd2af7ad5,
@@ -20659,7 +20659,7 @@ fn getPoseidonS(t: Field) -> [Field]{
         return [0];
     }}}}}}}}}}}}}}}}
 }
-fn getPoseidonM(t: Field) -> [[Field]]{
+fn POSEIDON_M(t: Field) -> [Field]{
   if t==2 {
         return
         [
@@ -22816,8 +22816,7 @@ fn getPoseidonM(t: Field) -> [[Field]]{
         return [[0]];
     }}}}}}}}}}}}}}}}
 }
-
-fn getPoseidonS(t: Field) -> [[Field]]{
+fn POSEIDON_P(t: Field) -> [Field]{
     if t==2 {
         return
         [

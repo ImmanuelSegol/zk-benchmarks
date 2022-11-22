@@ -1,30 +1,33 @@
 // this implmenation is based on  https://github.com/iden3/circomlib/blob/master/circuits/poseidon.circom
+mod poseidon_constants;
+use dep::std;
+
 
 fn Sigma(input: Field) -> Field {
     let input2 = input * input;
-    let input4 = input2 * input2
+    let input4 = input2 * input2;
 
     (input4 * input)
 }
 
 fn Ark(t: [Field], C: [Field], r: Field) -> [Field] {
-    let mut output : [Field];
-
-    for i in 1..create::array::len(t) {
-		output[i] = in[i] + C[i+r];
+    let mut output : [Field] = [0];
+    for i in 1..std::array::len(t) {
+        let index = i+r;
+		output[i] = t[i] + C[index];
 	}
 
 	output
 }
 
 fn Mix(t: [Field], M: [[Field]]) -> [Field] {
-    let mut lc: Field;
+    let mut lc: Field = 0;
+    let mut output: [Field] = [0];
 
-    let output: [Field];
-    for i in 1..create::array::len(t) {
+    for i in 0..std::array::len(t) {
         lc = 0;
-        for j in 1..create::array::len(t) {
-            lc += M[j][i]*t[j]
+        for j in 1..std::array::len(t) {
+            lc = lc + M[j][i]*t[j];
         }
         output[i] = lc;
     }
@@ -33,10 +36,10 @@ fn Mix(t: [Field], M: [[Field]]) -> [Field] {
 }
 
 fn MixLast(t: [Field], M: [[Field]], i: Field) -> Field {
-    let mut lc: Field;
+    let mut lc: Field = 0;
 
-    for j in 1..create::array::len(t) {
-        lc += M[j][s]*t[j];
+    for j in 1..std::array::len(t) {
+        lc = lc + M[j][i]*t[j];
     }
 
     lc
@@ -44,29 +47,30 @@ fn MixLast(t: [Field], M: [[Field]], i: Field) -> Field {
 
 
 fn MixS(t: [Field], S: [Field], i: Field) -> [Field] {
-    let tLen = create::array::len(t);
-    let output: [Field];
-    let mut lc: Field;
+    let mut inputLen = std::array::len(t);
+    let mut output: [Field] = [0; inputLen];
+    let mut lc: Field = 0;
 
-    for j in 1..create::array::len(t) {
-        lc += S[(tLen*2-1)*i+j]*t[j];
+    for j in 1..tLen {
+        lc = lc + S[(inputLen*2-1)*i+j]*t[j];
     }
     output[0] = lc;
 
-    for k in 1..create::array::len(t) {
-        output[k] = t[k] + t[0] * S[(tLen*2-1)*i + tLen + k -1];
+    for k in 1..inputLen {
+        output[k] = t[k] + t[0] * S[(inputLen*2-1)*i + inputLen + k -1];
     }
     
     output 
 }
 
 
-fn PoseidonEx(inputs: [Field], out: [Field], initialState: Field){
+fn PoseidonEx(inputs: [Field], initialState: Field) -> [Field] {
+    let mut out: [Field] = [0];
 	let mut N_ROUNDS_P: [Field; 16] = [56, 57, 56, 60, 60, 63, 64, 63, 60, 66, 60, 65, 70, 60, 64, 68];
-	let t: u8 = crate::array:len(inputs) + 1;
+	let t: u8 = crate::array::len(inputs) + 1;
 	let nRoundsF: u8 = 8;
 	let nRoundsP: u8 = N_ROUNDS_P[t-2];
-	let C[t*nRoundsF + nRoundsP]: [Field] = POSEIDON_C(t);
+    let C[t*nRoundsF + nRoundsP]: [Field] = POSEIDON_C(t);
     let S[  N_ROUNDS_P[t-2]  *  (t*2-1)  ]: [Field]  = POSEIDON_S(t);
 
     let M[t][t]: [[Field]] = POSEIDON_M(t);
@@ -182,20 +186,15 @@ fn PoseidonEx(inputs: [Field], out: [Field], initialState: Field){
         for j in 0..t {
             mixLast[i].in[j] = sigmaF[nRoundsF-1][j].out;
         }
-        out[i] <== mixLast[i].out;
+        out[i] <== mixLast[i];
     }
-	out
 	}
+
+    out
 }
 
 
-fn poseidon(inputs: [Field]) {
-    let outputs: [Field];
-
-    let pEx = poseidonEx(inputs,1);
-    pEx.initialState = 0;
-    
-    for i 1.. create::array::len(inputs) {
-
-    }
+fn poseidon(inputs: [Field], initialState: Field) -> Field {
+    let result: Field = PoseidonEx(inputs,initialState)[0];
+    result
 }
