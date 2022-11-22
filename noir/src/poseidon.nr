@@ -1,13 +1,13 @@
 // this implmenation is based on  https://github.com/iden3/circomlib/blob/master/circuits/poseidon.circom
 
-fn sigma(input: Field) -> Field {
+fn Sigma(input: Field) -> Field {
     let input2 = input * input;
     let input4 = input2 * input2
 
     (input4 * input)
 }
 
-fn ark(t: [Field], C: [Field], r: Field) -> [Field] {
+fn Ark(t: [Field], C: [Field], r: Field) -> [Field] {
     let mut output : [Field];
 
     for i in 1..create::array::len(t) {
@@ -17,7 +17,7 @@ fn ark(t: [Field], C: [Field], r: Field) -> [Field] {
 	output
 }
 
-fn mix(t: [Field], M: [[Field]]) -> [Field] {
+fn Mix(t: [Field], M: [[Field]]) -> [Field] {
     let mut lc: Field;
 
     let output: [Field];
@@ -32,7 +32,7 @@ fn mix(t: [Field], M: [[Field]]) -> [Field] {
     output
 }
 
-fn mixLast(t: [Field], M: [[Field]], i: Field) -> Field {
+fn MixLast(t: [Field], M: [[Field]], i: Field) -> Field {
     let mut lc: Field;
 
     for j in 1..create::array::len(t) {
@@ -43,7 +43,7 @@ fn mixLast(t: [Field], M: [[Field]], i: Field) -> Field {
 }
 
 
-fn mixS(t: [Field], S: [Field], i: Field) -> [Field] {
+fn MixS(t: [Field], S: [Field], i: Field) -> [Field] {
     let tLen = create::array::len(t);
     let output: [Field];
     let mut lc: Field;
