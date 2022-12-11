@@ -1,4 +1,3 @@
-// this implmenation is based on  https://github.com/iden3/circomlib/blob/master/circuits/poseidon.circom
 mod poseidon_constants;
 use dep::std;
 
