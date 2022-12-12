@@ -5,3 +5,7 @@
 [submodule "halo2-benchmarks"]
 	path = halo2-benchmarks
 	url = https://github.com/ImmanuelSegol/halo2-benchmarks.git
+[submodule "plonky2-bencmark"]
+	path = plonky2-bencmark
+	url = https://github.com/ImmanuelSegol/plonky2-bencmark.git
+	branch = "benchmark"
