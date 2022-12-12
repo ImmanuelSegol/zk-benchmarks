@@ -4,7 +4,6 @@
 *.wtns
 *.ptau
 *.zkey
-*.json
 bench_poseidon_cpp/
 node_modules/
 rapidsnark/
