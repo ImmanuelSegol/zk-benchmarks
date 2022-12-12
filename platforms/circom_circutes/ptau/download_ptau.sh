@@ -1,1 +1,0 @@
-wget https://hermez.s3-eu-west-1.amazonaws.com/powersOfTau28_hez_final_"$1".ptau
