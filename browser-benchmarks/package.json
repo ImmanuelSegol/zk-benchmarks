@@ -6,12 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "astrobench": "./node_modules/astrobench-cli/bin/astrobench",
-    "bench:groth16": "npm run astrobench groth16.html"
+    "bench:groth16": "astrobench -vLN --timeout 10 groth16.html"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "astrobench-cli": "^2.0.1",
     "snarkjs": "^0.5.0"
   }
 }
