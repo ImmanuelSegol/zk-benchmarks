@@ -5,11 +5,12 @@ todo:
 - write benchmarks
 
 
-how to use 
-
+how to use:
 - install rust 
     https://www.rust-lang.org/tools/install
 - install circom
     https://docs.circom.io/getting-started/installation/#installing-circom
-- nlohmann 
+- nlohmann
     brew install nlohmann-json
+- install sub modules
+    git submodule update --init

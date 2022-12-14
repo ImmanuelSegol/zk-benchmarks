@@ -7,3 +7,9 @@
 bench_poseidon_cpp/
 node_modules/
 rapidsnark/
+
+
+.env
+.env.example
+.env.local
+.env.staging

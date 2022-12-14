@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
-const { generateProof } = require('./grothClient');
+const { benchGroth16Circom } = require('./groth16Client');
 
-const bench = async (cap, benchmarkFn) => {
+const puppeteerBenchGroth16Circom = async (cap,circuitName) => {
     console.log("Starting test -->", cap['name'])
     
     cap['browserstack.username'] = process.env.BROWSERSTACK_USERNAME || 'YOUR_USERNAME';
@@ -12,13 +12,27 @@ const bench = async (cap, benchmarkFn) => {
     });
     
     const page = await browser.newPage();
-    const benchmark_results = await page.evaluate(() => benchmarkFn());
-    console.log(benchmark_results);
+    
+    var filepath = path.join(__dirname, "./groth16Client");
+    await page.addScriptTag({ path: require.resolve(filepath) });
+    const benchmark_results = await page.evaluate(async (benchmarkFn, circuitName) => {
+      return await benchmarkFn(circuitName);
+    }, circuitName);
+    
+    console.log(benchmark_results, cap);
     await browser.close();
 };
 
 
-const capabilities = [
+const benches = [
+  {
+    prover: "groth16",
+    lang: "circom",
+    circuit: "poseidonex_test",
+  }
+]
+
+const platforms = [
 {
   'browser': 'chrome',
   'browser_version': 'latest',
@@ -36,10 +50,14 @@ const capabilities = [
   'build': 'puppeteer-build-2'
 }]
 
-const tt = async (cap, benchmarkFn) => {}
-
-
-capabilities.forEach(async (cap) => {
-  //await bench(cap);
-  await generateProof()
-});
+benches.forEach(b => {
+  switch (b.prover) {
+    case "groth16":
+      platforms.forEach(async (cap) => {
+        await puppeteerBenchGroth16Circom(cap, b.circuit);
+      });
+      return
+    default:
+      throw new Error(`bench for ${b.prover} not implemented`);
+  }
+})
