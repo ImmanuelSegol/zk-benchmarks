@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "chai": "^4.3.7",
-    "puppeteer": "^19.4.0"
-  }
-}

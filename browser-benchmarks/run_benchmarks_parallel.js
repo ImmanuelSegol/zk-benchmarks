@@ -10,7 +10,7 @@ const puppeteerBenchGroth16Circom = async (cap,circuitName) => {
     const browser = await puppeteer.connect({
       browserWSEndpoint:`wss://cdp.browserstack.com/puppeteer?caps=${encodeURIComponent(JSON.stringify(cap))}`,
     });
-    
+
     const page = await browser.newPage();
     
     var filepath = path.join(__dirname, "./groth16Client");
