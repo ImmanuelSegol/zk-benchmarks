@@ -5,12 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "astrobench": "./node_modules/astrobench-cli/bin/astrobench",
-    "bench:groth16": "astrobench -vLN --timeout 10 groth16.html"
+    "bench:groth16": "node ./benchmarkSnarkjs.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.1277.0",
+    "puppeteer": "^19.4.1",
     "snarkjs": "^0.5.0"
   }
 }
