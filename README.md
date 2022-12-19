@@ -1,6 +1,7 @@
 # Development and usage
 Enviroment setup
 - install [rust](https://www.rust-lang.org/tools/install)
+  - https://rust-lang.github.io/rustup/installation/index.html#installing-nightly
 - install [circom](https://docs.circom.io/getting-started/installation/#installing-circom)
 
 ### MacOS - 
