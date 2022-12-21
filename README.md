@@ -1,3 +1,6 @@
+# Latest Benchmark results
+[Results](https://github.com/ImmanuelSegol/zk-benchmarks/blob/main/BENCHMARKS.md)
+
 # Development and usage
 Enviroment setup
 - install [rust](https://www.rust-lang.org/tools/install)
