@@ -9,3 +9,7 @@
 	path = plonky2-bencmark
 	url = https://github.com/ImmanuelSegol/plonky2-bencmark.git
 	branch = "benchmark"
+[submodule "noir"]
+	path = noir
+	url = https://github.com/ImmanuelSegol/noir.git
+	branch = "benchmark"
