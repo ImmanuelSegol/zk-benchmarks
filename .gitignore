@@ -7,7 +7,7 @@
 bench_poseidon_cpp/
 node_modules/
 rapidsnark/
-
+.vscode/
 
 .env
 .env.example
