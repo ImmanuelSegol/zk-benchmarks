@@ -10,9 +10,9 @@ const s3 = new AWS.S3();
 
 const BUCKET_NAME = 'zk-benchmark';
 
-async function doesFileExsist(fileKey) {
+async function doesFileExsist(fileKey, bucket = BUCKET_NAME) {
     const params = {
-        Bucket: BUCKET_NAME,
+        Bucket: bucket,
         Key: fileKey
     };
 
@@ -32,10 +32,10 @@ async function doesFileExsist(fileKey) {
     }
  ]
  */
- async function uploadFilesWithPublicAccess(files, shouldOverRide = false) {
+ async function uploadFilesWithPublicAccess(files, shouldOverRide = false, bucket = BUCKET_NAME) {
     const response = await Promise.all(files.map(async (file) => {
       const params = {
-        Bucket: BUCKET_NAME,
+        Bucket: bucket,
         Key: file.key,
         Body: fs.createReadStream(file.path),
         ACL:'public-read',
@@ -53,9 +53,9 @@ async function doesFileExsist(fileKey) {
         },
     ]
  */
-async function deleteFiles(keys) {
+async function deleteFiles(keys, bucket = BUCKET_NAME) {
     const params = {
-        Bucket: BUCKET_NAME,
+        Bucket: bucket,
         Delete: {
           Objects: keys,
         }

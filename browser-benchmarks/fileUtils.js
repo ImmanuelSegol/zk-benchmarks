@@ -16,7 +16,7 @@ async function deleteBenchmarkFiles(circitName) {
       await deleteFiles(files);
 }
 
-async function getCircomBenchmarkFilesForCircuit(circitName) {
+async function uploadAndFetchFiles(circitName) {
     const wtns = `${circitName}_web.wtns`;
     const wasm = `../circomlib-benchmarks/benchmarks/${circitName}_benchmark_files/${circitName}_js/${circitName}.wasm`;
     const zkey = `../circomlib-benchmarks/benchmarks/${circitName}_benchmark_files/${circitName}.zkey`;
@@ -76,5 +76,5 @@ async function getCircomBenchmarkFilesForCircuit(circitName) {
 
 
 module.exports = {
-    getCircomBenchmarkFilesForCircuit
+  uploadAndFetchFiles
 }

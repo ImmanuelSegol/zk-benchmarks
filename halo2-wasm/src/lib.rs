@@ -1,2 +1,2 @@
-#[cfg(target_family = "wasm")]
+//#[cfg(target_family = "wasm")]
 pub mod wasm;

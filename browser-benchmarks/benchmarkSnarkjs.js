@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer');
-const { getCircomBenchmarkFilesForCircuit } = require('./fileUtils');
+const { uploadAndFetchFiles } = require('./fileUtils');
 
 const puppeteerBenchGroth16Circom = async (cap,circuitName) => {
     console.log("Starting test -->", cap['name'])
@@ -20,7 +20,7 @@ const puppeteerBenchGroth16Circom = async (cap,circuitName) => {
     // wait for title to load 
     await page.title();
     
-    const paths = await getCircomBenchmarkFilesForCircuit(circuitName);
+    const paths = await uploadAndFetchFiles(circuitName);
 
 
     const benchmark_results = await page.evaluate(async (files) => {

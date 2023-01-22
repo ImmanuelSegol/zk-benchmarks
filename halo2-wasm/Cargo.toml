@@ -13,6 +13,10 @@ crate-type = ["cdylib", "rlib"]
 [dependencies]
 halo2_gadgets = { path = "../halo2-benchmarks/halo2_gadgets" }
 halo2_proofs = { path = "../halo2-benchmarks/halo2_proofs" }
+ff = "0.13"
+rand = "0.8"
+pasta_curves = "0.5"
+criterion = "0.3"
 
 [target.'cfg(target_family = "wasm")'.dependencies]
 getrandom = { version = "0.2", features = ["js"]}
