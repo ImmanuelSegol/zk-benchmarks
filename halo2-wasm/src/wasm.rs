@@ -19,10 +19,24 @@ use halo2_gadgets::poseidon::{
 use std::convert::TryInto;
 use std::marker::PhantomData;
 
-use criterion::{criterion_group, criterion_main, Criterion};
 use rand::rngs::OsRng;
 
 use wasm_bindgen::prelude::*;
+use serde::{Serialize, Deserialize};
+ 
+
+#[derive(Serialize, Deserialize, Debug)]
+struct BenchResult {
+    proof_time: u128,
+    verify_time: u128,
+    name: String,
+}
+#[derive(Serialize, Deserialize, Debug)]
+struct BenchResultCollection {
+    width3_rate2: BenchResult,
+    width9_rate8: BenchResult,
+    width12_rate11: BenchResult,
+}
 
 #[derive(Clone, Copy)]
 struct HashCircuit<S, const WIDTH: usize, const RATE: usize, const L: usize>
@@ -143,7 +157,7 @@ const K: u32 = 7;
 
 fn bench_poseidon<S, const WIDTH: usize, const RATE: usize, const L: usize>(
     name: &str,
-) where
+) -> BenchResult where
     S: Spec<Fp, WIDTH, RATE> + Copy + Clone,
 {
     // Initialize the polynomial commitment parameters
@@ -157,9 +171,6 @@ fn bench_poseidon<S, const WIDTH: usize, const RATE: usize, const L: usize>(
     // Initialize the proving key
     let vk = keygen_vk(&params, &empty_circuit).expect("keygen_vk should not fail");
     let pk = keygen_pk(&params, vk, &empty_circuit).expect("keygen_pk should not fail");
-
-    let prover_name = name.to_string() + "-prover";
-    let verifier_name = name.to_string() + "-verifier";
 
     let mut rng = OsRng;
     let message = (0..L)
@@ -203,14 +214,26 @@ fn bench_poseidon<S, const WIDTH: usize, const RATE: usize, const L: usize>(
         &mut transcript
     )
     .is_ok());
+    let done_verifing_proof = before_verifing_proof.elapsed().as_micros();
 
+    BenchResult {
+        proof_time: done_making_proof,
+        verify_time: done_verifing_proof,
+        name: name.to_owned(),
+    }
 }
 
 #[wasm_bindgen]
-pub fn benchmark() -> bool {
-    bench_poseidon::<MySpec<3, 2>, 3, 2, 2>("WIDTH = 3, RATE = 2");
-    bench_poseidon::<MySpec<9, 8>, 9, 8, 8>("WIDTH = 9, RATE = 8");
-    bench_poseidon::<MySpec<12, 11>, 12, 11, 11>("WIDTH = 12, RATE = 11");
+pub fn benchmark() -> String {
+    let width3_rate2  = bench_poseidon::<MySpec<3, 2>, 3, 2, 2>("WIDTH = 3, RATE = 2");
+    let width9_rate8 = bench_poseidon::<MySpec<9, 8>, 9, 8, 8>("WIDTH = 9, RATE = 8");
+    let width12_rate11 = bench_poseidon::<MySpec<12, 11>, 12, 11, 11>("WIDTH = 12, RATE = 11");
 
-    return true
+    let result = BenchResultCollection {
+        width3_rate2,
+        width9_rate8,
+        width12_rate11,
+    };
+
+    return serde_json::to_string(&result).unwrap();
 }
